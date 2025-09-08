@@ -1,35 +1,81 @@
-import { NextRequest, NextResponse } from "next/server";
-import { extractSubdomain } from "./lib/subdomains";
+import { NextResponse } from "next/server";
 
-const CONSOLE = "console";
-const AUTH = "auth";
+// Constants for subdomain names
+// const SUBDOMAINS = {
+//   CONSOLE: "console",
+//   AUTH: "auth",
+// } as const;
 
-export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const subdomain = extractSubdomain(request);
-  console.log(1, subdomain);
+// Environment configuration
+// const CONFIG = {
+//   baseAuthUrl: serverEnv.BASE_AUTH_URL,
+//   baseConsoleUrl: serverEnv.BASE_CONSOLE_URL,
+// } as const;
 
-  //tenant routing
-  if (subdomain === CONSOLE) {
-    return NextResponse.rewrite(new URL(`/console${pathname}`, request.url));
-  }
+// Utility function to create a redirect URL
+// const createRedirectUrl = (
+//   baseUrl: string,
+//   pathname: string,
+//   requestUrl: string,
+//   prefixLength: number
+// ): URL => {
+//   return new URL(`${baseUrl}/${pathname.substring(prefixLength)}`, requestUrl);
+// };
 
-  if (subdomain === AUTH) {
-    if (pathname === "/") {
-      return NextResponse.redirect(new URL("/sign-up", request.url));
-    }
-    return NextResponse.rewrite(new URL(`/auth${pathname}`, request.url));
-  }
-  if (subdomain) {
-    return NextResponse.rewrite(
-      new URL(`/tenant/${subdomain}${pathname}`, request.url)
-    );
-  }
+// Utility function to create a rewrite URL
+// const createRewriteUrl = (path: string, requestUrl: string): URL => {
+//   return new URL(path, requestUrl);
+// };
 
-  // On the root domain, allow normal access
+export async function middleware() {
+  // Pass through unmatched requests
   return NextResponse.next();
 }
 
+// Middleware configuration
 export const config = {
   matcher: ["/((?!api|_next|[\\w-]+\\.\\w+).*)"],
 };
+
+// const { pathname } = request.nextUrl;
+// const subdomain = extractSubdomain(request);
+
+// const sessionCookie = getSessionCookie(request);
+
+// console.log("sessionCookie =>", sessionCookie);
+
+// // Handle redirects based on pathname
+// if (pathname.startsWith("/auth")) {
+//   return NextResponse.redirect(
+//     createRedirectUrl(CONFIG.baseAuthUrl, pathname, request.url, 6)
+//   );
+// }
+
+// if (pathname.startsWith("/console")) {
+//   return NextResponse.redirect(
+//     createRedirectUrl(CONFIG.baseConsoleUrl, pathname, request.url, 9)
+//   );
+// }
+
+// // Handle subdomain-based routing
+// if (subdomain === SUBDOMAINS.CONSOLE) {
+//   return NextResponse.rewrite(
+//     createRewriteUrl(`/console${pathname}`, request.url)
+//   );
+// }
+
+// if (subdomain === SUBDOMAINS.AUTH) {
+//   if (pathname === "/") {
+//     return NextResponse.redirect(createRewriteUrl("/sign-up", request.url));
+//   }
+//   return NextResponse.rewrite(
+//     createRewriteUrl(`/auth${pathname}`, request.url)
+//   );
+// }
+
+// // Handle tenant-based routing
+// if (subdomain) {
+//   return NextResponse.rewrite(
+//     createRewriteUrl(`/tenant/${subdomain}${pathname}`, request.url)
+//   );
+// }

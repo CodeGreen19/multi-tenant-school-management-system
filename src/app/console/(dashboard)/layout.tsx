@@ -1,4 +1,4 @@
-import ConsoleLayout from "@/modules/console/layout";
+import ConsoleLayout from "@/modules/console-dashboard/layout";
 import { ChildrenProps } from "@/types/global";
 import React from "react";
 

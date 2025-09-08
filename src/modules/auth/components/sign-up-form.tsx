@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
@@ -11,16 +12,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useTRPC } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { signUpSchema, SignUpSchemaType } from "../schema";
-import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const trpc = useTRPC();
+  const router = useRouter();
   const form = useForm<SignUpSchemaType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -29,7 +35,21 @@ export function SignUpForm({
       password: "",
     },
   });
-  const onSubmit = (value: SignUpSchemaType) => {};
+  const signUpMutation = useMutation(
+    trpc.auth.signUp.mutationOptions({
+      onError: (error) => {
+        toast.error(error.message);
+      },
+      onSuccess: ({ message }) => {
+        toast.success(message);
+        router.push("/auth/sign-up");
+      },
+    })
+  );
+
+  const onSubmit = async (value: SignUpSchemaType) => {
+    signUpMutation.mutate(value);
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -86,7 +106,12 @@ export function SignUpForm({
                       </FormItem>
                     )}
                   />
-                  <Button className="w-full">Submit </Button>
+                  <Button
+                    disabled={signUpMutation.isPending}
+                    className="w-full"
+                  >
+                    Submit{" "}
+                  </Button>
                 </div>
 
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

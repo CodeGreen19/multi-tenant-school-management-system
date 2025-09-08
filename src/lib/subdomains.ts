@@ -1,9 +1,8 @@
 import { NextRequest } from "next/server";
+import { serverEnv } from "./env";
 
-export const protocol =
-  process.env.NODE_ENV === "production" ? "https" : "http";
-export const rootDomain =
-  process.env.NEXT_PUBLIC_ROOT_DOMAIN || "localhost:3000";
+export const protocol = serverEnv.NODE_ENV === "production" ? "https" : "http";
+export const rootDomain = serverEnv.ROOT_DOMAIN;
 
 export function extractSubdomain(request: NextRequest): string | null {
   const url = request.url;

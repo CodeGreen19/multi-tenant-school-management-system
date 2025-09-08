@@ -1,9 +1,8 @@
 "use client";
 
 import Logo from "@/components/shared/logo";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +12,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { useState } from "react";
 
 export default function HomeNav() {
   return (
@@ -29,7 +29,7 @@ export default function HomeNav() {
 function AuthButtons() {
   return (
     <div className="flex  gap-1 items-center">
-      <Link href={"/auth/sign-up"}>
+      <Link href={`/auth/sign-up`}>
         <Button variant={"outline"} className="">
           Sign Up
         </Button>
