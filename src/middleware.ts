@@ -27,17 +27,16 @@ export async function middleware(req: NextRequest) {
 
   /// for tenant routing
   if (subdomain) {
-    const rewriteUrl = new URL(
-      `${baseUrl}/tenant/${subdomain}${pathname}`,
-      req.url
-    );
+    const rewriteUrl = new URL(`tenant/${subdomain}${pathname}`, req.url);
     console.log(rewriteUrl.toString());
 
     return NextResponse.rewrite(rewriteUrl);
   }
 
+  //pro.ahmedsolution.xyz/
+
   // Pass through unmatched requests
-  return NextResponse.next();
+  http: return NextResponse.next();
 }
 
 export const config = {
