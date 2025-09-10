@@ -17,6 +17,6 @@ export const clientEnv = createEnv({
     NEXT_PUBLIC_BASE_URL: z.string(),
   },
   runtimeEnv: {
-    NEXT_PUBLIC_BASE_URL: process.env.BASE_URL,
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
   },
 });
