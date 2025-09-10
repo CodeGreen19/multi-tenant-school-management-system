@@ -13,6 +13,10 @@ export const serverEnv = createEnv({
   experimental__runtimeEnv: process.env,
 });
 export const clientEnv = createEnv({
-  client: {},
-  runtimeEnv: {},
+  client: {
+    NEXT_PUBLIC_BASE_URL: z.string(),
+  },
+  runtimeEnv: {
+    NEXT_PUBLIC_BASE_URL: process.env.BASE_URL,
+  },
 });
