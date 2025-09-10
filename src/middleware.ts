@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { extractSubdomain } from "./lib/subdomains";
 import { serverEnv } from "./lib/env";
 
-const baseUrl = serverEnv.BASE_URL;
+// const baseUrl = serverEnv.BASE_URL;
 export const protocol = serverEnv.NODE_ENV === "production" ? "https" : "http";
 //
 export async function middleware(req: NextRequest) {
@@ -13,21 +13,19 @@ export async function middleware(req: NextRequest) {
     if (pathname === "/") {
       return NextResponse.redirect(new URL(`/sign-up`, req.url));
     }
-    return NextResponse.rewrite(new URL(`${baseUrl}/auth${pathname}`, req.url));
+    return NextResponse.rewrite(new URL(`/auth${pathname}`, req.url));
   }
 
   if (subdomain === "console") {
     if (pathname === "/") {
       return NextResponse.redirect(new URL(`/sign-in`, req.url));
     }
-    return NextResponse.rewrite(
-      new URL(`${baseUrl}/console${pathname}`, req.url)
-    );
+    return NextResponse.rewrite(new URL(`/console${pathname}`, req.url));
   }
 
   /// for tenant routing
   if (subdomain) {
-    const rewriteUrl = new URL(`tenant/${subdomain}${pathname}`, req.url);
+    const rewriteUrl = new URL(`/tenant/${subdomain}${pathname}`, req.url);
     console.log(rewriteUrl.toString());
 
     return NextResponse.rewrite(rewriteUrl);
@@ -36,7 +34,7 @@ export async function middleware(req: NextRequest) {
   //pro.ahmedsolution.xyz/
 
   // Pass through unmatched requests
-  http: return NextResponse.next();
+  return NextResponse.next();
 }
 
 export const config = {
