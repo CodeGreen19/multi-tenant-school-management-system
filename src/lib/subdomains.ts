@@ -1,9 +1,6 @@
 import { NextRequest } from "next/server";
 import { serverEnv } from "./env";
 
-export const protocol = serverEnv.NODE_ENV === "production" ? "https" : "http";
-export const rootDomain = serverEnv.ROOT_DOMAIN;
-
 export function extractSubdomain(request: NextRequest): string | null {
   const url = request.url;
   const host = request.headers.get("host") || "";
@@ -24,8 +21,8 @@ export function extractSubdomain(request: NextRequest): string | null {
 
     return null;
   }
-
   // Production environment
+  const rootDomain = serverEnv.ROOT_DOMAIN;
   const rootDomainFormatted = rootDomain.split(":")[0];
 
   // Regular subdomain detection

@@ -6,21 +6,13 @@ export const serverEnv = createEnv({
     DATABASE_URL: z.string(),
     BETTER_AUTH_SECRET: z.string(),
     BETTER_AUTH_URL: z.string(),
-    BASE_AUTH_URL: z.string(),
     ROOT_DOMAIN: z.string(),
     BASE_URL: z.string(),
-    BASE_CONSOLE_URL: z.string(),
     NODE_ENV: z.string(),
   },
   experimental__runtimeEnv: process.env,
 });
 export const clientEnv = createEnv({
-  client: {
-    NEXT_PUBLIC_BASE_URL: z.string(),
-    NEXT_PUBLIC_BASE_AUTH_URL: z.string(),
-  },
-  runtimeEnv: {
-    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
-    NEXT_PUBLIC_BASE_AUTH_URL: process.env.NEXT_PUBLIC_BASE_AUTH_URL,
-  },
+  client: {},
+  runtimeEnv: {},
 });
