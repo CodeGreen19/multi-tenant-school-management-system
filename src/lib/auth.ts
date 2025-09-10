@@ -17,6 +17,22 @@ export const auth = betterAuth({
       enabled: true,
     },
   },
+  advanced: {
+    crossSubDomainCookies: {
+      enabled: true,
+      domain: ".localhost.test",
+    },
+  },
+  trustedOrigins: [
+    "https://auth.ahmedsolution.xyz",
+    "https://console.ahmedsolution.xyz",
+    "https://ahmedsolution.xyz",
+  ],
+  // trustedOrigins: [
+  //   "http://auth.localhost.test:3000",
+  //   "http://console.localhost.test:3000",
+  //   "http://app.localhost.test:3000",
+  // ],
 
   plugins: [organization(), admin(), nextCookies()],
 });

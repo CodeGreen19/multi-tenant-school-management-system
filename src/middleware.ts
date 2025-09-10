@@ -9,6 +9,10 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const subdomain = extractSubdomain(req);
 
+  if (subdomain === "app") {
+    return NextResponse.next();
+  }
+
   if (subdomain === "auth") {
     if (pathname === "/") {
       return NextResponse.redirect(new URL(`/sign-up`, req.url));
@@ -30,8 +34,6 @@ export async function middleware(req: NextRequest) {
 
     return NextResponse.rewrite(rewriteUrl);
   }
-
-  //pro.ahmedsolution.xyz/
 
   // Pass through unmatched requests
   return NextResponse.next();

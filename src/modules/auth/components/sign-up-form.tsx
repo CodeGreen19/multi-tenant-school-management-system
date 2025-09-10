@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { signUpSchema, SignUpSchemaType } from "../schema";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 export function SignUpForm({
   className,
   ...props
@@ -39,16 +40,23 @@ export function SignUpForm({
     trpc.auth.signUp.mutationOptions({
       onError: (error) => {
         toast.error(error.message);
+        console.log(error);
       },
       onSuccess: ({ message }) => {
         toast.success(message);
-        router.push("/auth/sign-up");
+        // router.push("/auth/sign-up");
       },
     })
   );
 
   const onSubmit = async (value: SignUpSchemaType) => {
-    signUpMutation.mutate(value);
+    // signUpMutation.mutate(value);
+
+    await authClient.signUp.email({
+      email: value.email,
+      name: value.fullName,
+      password: value.password,
+    });
   };
 
   return (

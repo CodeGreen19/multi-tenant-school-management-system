@@ -13,6 +13,7 @@ export const authRouter = createTRPCRouter({
         email: input.email,
         password: input.password,
       },
+      headers: await headers(),
     });
     return getMessage("auth.signup.success");
   }),
